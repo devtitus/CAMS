@@ -8,7 +8,10 @@ export async function authenticate(
   formData: FormData,
 ) {
   try {
-    await signIn('credentials', formData)
+    await signIn('credentials', { 
+      ...Object.fromEntries(formData),
+      redirectTo: '/' 
+    })
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -18,6 +21,6 @@ export async function authenticate(
           return 'Something went wrong.'
       }
     }
-    throw error // Important to throw so Auth.js can handle redirects
+    throw error
   }
 }

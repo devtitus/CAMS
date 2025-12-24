@@ -15,9 +15,9 @@ export const authConfig: NextAuthConfig = {
         if (isLoggedIn) {
           // Check role-based access
           const role = auth.user?.role
-          if (isOnAdmin && role !== 'ADMIN') return Response.redirect(new URL('/', nextUrl))
-          if (isOnTeacher && role !== 'TEACHER' && role !== 'ADMIN') return Response.redirect(new URL('/', nextUrl))
-          if (isOnStudent && role !== 'STUDENT' && role !== 'ADMIN') return Response.redirect(new URL('/', nextUrl))
+          if (isOnAdmin && role !== 'ADMIN') return Response.redirect(new URL('/unauthorized', nextUrl))
+          if (isOnTeacher && role !== 'TEACHER' && role !== 'ADMIN') return Response.redirect(new URL('/unauthorized', nextUrl))
+          if (isOnStudent && role !== 'STUDENT' && role !== 'ADMIN') return Response.redirect(new URL('/unauthorized', nextUrl))
           return true
         }
         return false // Redirect unauthenticated users to login page

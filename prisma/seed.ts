@@ -2,7 +2,13 @@ import 'dotenv/config'
 import { PrismaClient, UserRole } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
-const prisma = new PrismaClient()
+import { Pool } from 'pg'
+import { PrismaPg } from '@prisma/adapter-pg'
+
+const connectionString = process.env.DATABASE_URL
+const pool = new Pool({ connectionString })
+const adapter = new PrismaPg(pool)
+const prisma = new PrismaClient({ adapter })
 
 async function main() {
   const adminEmail = 'admin@cams.com'
@@ -24,6 +30,26 @@ async function main() {
   console.log('Seeding finished. Default admin created.')
   console.log(`Email: ${adminEmail}`)
   console.log(`Password: ${adminPassword}`)
+
+  const studentEmail = 'student@cams.com'
+  const studentPassword = 'studentpassword123'
+  const hashedStudentPassword = await bcrypt.hash(studentPassword, 10)
+
+  const student = await prisma.user.upsert({
+    where: { email: studentEmail },
+    update: {},
+    create: {
+      email: studentEmail,
+      name: 'Student User',
+      passwordHash: hashedStudentPassword,
+      role: UserRole.STUDENT,
+    },
+  })
+  
+  console.log({ student })
+  console.log('Student user created.')
+  console.log(`Email: ${studentEmail}`)
+  console.log(`Password: ${studentPassword}`)
 }
 
 main()
