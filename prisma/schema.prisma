@@ -1,0 +1,204 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  TEACHER
+  STUDENT
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+model Department {
+  id         String    @id @default(uuid()) @db.Uuid
+  name       String
+  code       String    @unique
+  courses    Course[]
+  subjects   Subject[]
+  users      User[]
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  @@map("departments")
+}
+
+model Course {
+  id           String     @id @default(uuid()) @db.Uuid
+  name         String
+  code         String     @unique
+  departmentId String     @db.Uuid @map("department_id")
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  batches      Batch[]
+  createdAt    DateTime   @default(now()) @map("created_at")
+
+  @@map("courses")
+}
+
+model Batch {
+  id           String     @id @default(uuid()) @db.Uuid
+  courseId     String     @db.Uuid @map("course_id")
+  course       Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  startYear    Int        @map("start_year")
+  endYear      Int        @map("end_year")
+  semesters    Semester[]
+  users        User[]
+  createdAt    DateTime   @default(now()) @map("created_at")
+
+  @@map("batches")
+}
+
+model Semester {
+  id             String    @id @default(uuid()) @db.Uuid
+  batchId        String    @db.Uuid @map("batch_id")
+  batch          Batch     @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  semesterNumber Int       @map("semester_number")
+  sections       Section[]
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  @@map("semesters")
+}
+
+model Section {
+  id              String           @id @default(uuid()) @db.Uuid
+  semesterId      String           @db.Uuid @map("semester_id")
+  semester        Semester         @relation(fields: [semesterId], references: [id], onDelete: Cascade)
+  name            String
+  students        User[]
+  subjectMappings SubjectMapping[]
+  createdAt       DateTime         @default(now()) @map("created_at")
+
+  @@map("sections")
+}
+
+model Subject {
+  id              String           @id @default(uuid()) @db.Uuid
+  name            String
+  code            String           @unique
+  credits         Int              @default(0)
+  departmentId    String           @db.Uuid @map("department_id")
+  department      Department       @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  subjectMappings SubjectMapping[]
+  exams           Exam[]
+  notes           Note[]
+  createdAt       DateTime         @default(now()) @map("created_at")
+
+  @@map("subjects")
+}
+
+model User {
+  id             String     @id @default(uuid()) @db.Uuid
+  name           String
+  email          String     @unique
+  passwordHash   String     @map("password_hash")
+  role           UserRole
+  
+  // Student specific
+  rollNumber     String?    @map("roll_number")
+  batchId        String?    @db.Uuid @map("batch_id")
+  batch          Batch?     @relation(fields: [batchId], references: [id], onDelete: SetNull)
+  sectionId      String?    @db.Uuid @map("section_id")
+  section        Section?   @relation(fields: [sectionId], references: [id], onDelete: SetNull)
+  
+  // Teacher/Student specific
+  departmentId   String?    @db.Uuid @map("department_id")
+  department     Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  
+  // Relationships
+  subjectMappings SubjectMapping[]
+  attendance      Attendance[]
+  marks           Marks[]
+  notes           Note[]
+  
+  createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model SubjectMapping {
+  id        String      @id @default(uuid()) @db.Uuid
+  subjectId String      @db.Uuid @map("subject_id")
+  subject   Subject     @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  sectionId String      @db.Uuid @map("section_id")
+  section   Section     @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  teacherId String      @db.Uuid @map("teacher_id")
+  teacher   User        @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  timetable TimeTable[]
+  createdAt DateTime    @default(now()) @map("created_at")
+
+  @@map("subject_mappings")
+}
+
+model TimeTable {
+  id               String         @id @default(uuid()) @db.Uuid
+  subjectMappingId String         @db.Uuid @map("subject_mapping_id")
+  subjectMapping   SubjectMapping @relation(fields: [subjectMappingId], references: [id], onDelete: Cascade)
+  dayOfWeek        Int            @map("day_of_week")
+  startTime        String         @map("start_time") // Using string for time as Prisma doesn't have a specific Time type that maps cleanly to Postgres TIME without specific native types
+  endTime          String         @map("end_time")
+  roomNumber       String?        @map("room_number")
+  attendance       Attendance[]
+  createdAt        DateTime       @default(now()) @map("created_at")
+
+  @@map("timetable")
+}
+
+model Attendance {
+  id          String           @id @default(uuid()) @db.Uuid
+  studentId   String           @db.Uuid @map("student_id")
+  student     User             @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  timetableId String           @db.Uuid @map("timetable_id")
+  timetable   TimeTable        @relation(fields: [timetableId], references: [id], onDelete: Cascade)
+  date        DateTime         @default(now()) @db.Date
+  status      AttendanceStatus @default(PRESENT)
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  @@map("attendance")
+}
+
+model Exam {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  subjectId String   @db.Uuid @map("subject_id")
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  maxMarks  Int      @map("max_marks")
+  minMarks  Int      @map("min_marks")
+  marks     Marks[]
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("exams")
+}
+
+model Marks {
+  id             String   @id @default(uuid()) @db.Uuid
+  studentId      String   @db.Uuid @map("student_id")
+  student        User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  examId         String   @db.Uuid @map("exam_id")
+  exam           Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  marksObtained  Float    @map("marks_obtained")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@map("marks")
+}
+
+model Note {
+  id         String   @id @default(uuid()) @db.Uuid
+  subjectId  String   @db.Uuid @map("subject_id")
+  subject    Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  teacherId  String   @db.Uuid @map("teacher_id")
+  teacher    User     @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  topic      String
+  fileUrl    String   @map("file_url")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("notes")
+}
