@@ -1,0 +1,99 @@
+.tableContainer {
+    background-color: var(--bg-panel);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px 0 var(--shadow-color);
+    border: 1px solid var(--border-primary);
+    overflow: hidden;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  
+  .th {
+    background-color: var(--bg-secondary);
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-primary);
+  }
+  
+  .td {
+    padding: 0.875rem 1.5rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-secondary);
+    vertical-align: middle;
+  }
+  
+  .tr:last-child .td {
+    border-bottom: none;
+  }
+  
+  .tr {
+    transition: background-color 0.15s;
+  }
+  
+  .tr:hover {
+    background-color: var(--bg-hover);
+  }
+  
+  .name {
+    font-weight: 500;
+  }
+  
+  .codeBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    background-color: var(--badge-blue-bg);
+    color: var(--badge-blue-text);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-family: monospace;
+  }
+
+  .deptBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    background-color: var(--badge-purple-bg);
+    color: var(--badge-purple-text);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .credits {
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+  }
+  
+  .actionBtn {
+    padding: 0.375rem;
+    border-radius: var(--radius);
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .editBtn:hover {
+    color: var(--accent-primary);
+    background-color: var(--bg-secondary);
+  }
+  
+  .deleteBtn:hover {
+    color: var(--danger-hover);
+    background-color: var(--danger-bg);
+  }
