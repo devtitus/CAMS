@@ -9,6 +9,7 @@ const navItems = [
   { label: 'Dashboard', href: '/admin', icon: '📊' },
   { label: 'Departments', href: '/admin/departments', icon: '🏢' },
   { label: 'Courses', href: '/admin/courses', icon: '📚' },
+  { label: 'Batches', href: '/admin/batches', icon: '🎓' },
   { label: 'Subjects', href: '/admin/subjects', icon: '📖' },
   { label: 'Users', href: '/admin/users', icon: '👥' },
   { label: 'Time-Table', href: '/admin/timetable', icon: '🗓️' },
