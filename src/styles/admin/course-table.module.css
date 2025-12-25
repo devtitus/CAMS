@@ -1,0 +1,113 @@
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.thead {
+  background-color: rgba(15, 23, 42, 0.5); 
+  color: var(--text-light);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.th {
+  padding: 1rem 1.5rem;
+  white-space: nowrap;
+}
+
+.tbody tr {
+  border-bottom: 1px solid var(--border-primary);
+  transition: background-color 0.2s;
+}
+
+.tbody tr:last-child {
+  border-bottom: none;
+}
+
+.tbody tr:hover {
+  background-color: var(--bg-hover);
+}
+
+.td {
+  padding: 1rem 1.5rem;
+  vertical-align: middle;
+}
+
+.courseName {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.codeBadge {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-secondary);
+  color: var(--text-light);
+  font-family: monospace;
+}
+
+.deptName {
+  color: var(--text-light);
+}
+
+.stat {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-light);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tbody tr:hover .actions {
+  opacity: 1;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.editBtn:hover {
+  color: var(--accent-text); 
+}
+
+.deleteBtn:hover {
+  color: var(--danger-hover); 
+}
+
+.deleteBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.emptyRow {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--text-muted);
+}
