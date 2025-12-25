@@ -1,0 +1,151 @@
+.container {
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+/* Grid Layout */
+.gridContainer {
+  display: grid;
+  grid-template-columns: 80px repeat(6, 1fr); /* Time Label + 6 Days */
+  gap: 1px;
+  background-color: var(--border-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.headerCell {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeParams {
+    background-color: var(--bg-panel);
+    display: flex;
+    flex-direction: column;
+    /* This cell spans all rows, but we will render individual day columns */
+}
+
+.dayColumn {
+    background-color: var(--bg-panel);
+    position: relative;
+    min-height: 600px; /* Each hour could be 50px */
+}
+
+.timeLabel {
+    height: 60px; /* matched with slot height unit */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-bottom: 1px dashed var(--border-secondary);
+}
+
+.gridLine {
+    height: 60px;
+    border-bottom: 1px dashed var(--border-secondary);
+    width: 100%;
+}
+
+/* Slot Card */
+.slotCard {
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    background-color: var(--accent-light); /* fallback */
+    border-left: 4px solid var(--accent-primary);
+    font-size: 0.75rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.1s, z-index 0.1s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.slotCard:hover {
+    z-index: 10;
+    transform: scale(1.02);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.subjectName {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.125rem;
+}
+
+.teacherName {
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+}
+
+.roomTag {
+    position: absolute;
+    bottom: 0.25rem;
+    right: 0.25rem;
+    background: rgba(255,255,255,0.5);
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 0.65rem;
+}
+
+.deleteBtn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    padding: 2px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--danger);
+    display: none;
+}
+
+.slotCard:hover .deleteBtn {
+    display: block;
+}
+
+/* Modal Reuse */
+.modal {
+    background: var(--bg-panel);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    backdrop-filter: blur(4px);
+}
