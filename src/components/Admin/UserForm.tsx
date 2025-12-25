@@ -60,6 +60,7 @@ export default function UserForm({ user, onClose, onSuccess, departments = [], b
     if (!data.batchId || data.batchId === '') delete data.batchId
     if (!data.sectionId || data.sectionId === '') delete data.sectionId
     if (!data.rollNumber) delete data.rollNumber
+    if (!data.password || data.password === '') delete data.password
 
     try {
       let result
