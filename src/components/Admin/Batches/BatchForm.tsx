@@ -27,7 +27,7 @@ export default function BatchForm({ batch, onClose, onSuccess, courses = [] }: B
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const { register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof BatchSchema>>({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(BatchSchema),
     defaultValues: batch ? {
         courseId: batch.courseId,
@@ -83,7 +83,7 @@ export default function BatchForm({ batch, onClose, onSuccess, courses = [] }: B
                  <option key={c.id} value={c.id}>{c.name}</option>
                ))}
              </select>
-              {errors.courseId && <p className={styles.errorMsg}>{errors.courseId.message}</p>}
+              {errors.courseId && <p className={styles.errorMsg}>{errors.courseId.message as string}</p>}
            </div>
 
            <div className={styles.row}>
@@ -94,7 +94,7 @@ export default function BatchForm({ batch, onClose, onSuccess, courses = [] }: B
                   {...register('startYear')} 
                   className={styles.input} 
                 />
-                {errors.startYear && <p className={styles.errorMsg}>{errors.startYear.message}</p>}
+                {errors.startYear && <p className={styles.errorMsg}>{errors.startYear.message as string}</p>}
               </div>
 
               <div className={`${styles.formGroup} ${styles.col}`}>
@@ -104,7 +104,7 @@ export default function BatchForm({ batch, onClose, onSuccess, courses = [] }: B
                   {...register('endYear')} 
                   className={styles.input} 
                 />
-                 {errors.endYear && <p className={styles.errorMsg}>{errors.endYear.message}</p>}
+                 {errors.endYear && <p className={styles.errorMsg}>{errors.endYear.message as string}</p>}
               </div>
            </div>
 
