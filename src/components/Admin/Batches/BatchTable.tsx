@@ -4,6 +4,7 @@ import { deleteBatch } from '@/app/actions/batch-actions'
 import { useState } from 'react'
 import { TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import styles from '@/styles/admin/batch-table.module.css'
+import Link from 'next/link'
 
 type BatchTableProps = {
   batches: any[]
@@ -47,7 +48,9 @@ export default function BatchTable({ batches, onEdit }: BatchTableProps) {
                     <div className={styles.courseName}>{batch.course?.name || '-'}</div>
                 </td>
                 <td className={styles.td}>
-                    <span className={styles.yearBadge}>{batch.startYear} - {batch.endYear}</span>
+                    <Link href={`/admin/batches/${batch.id}`} className="hover:underline">
+                        <span className={styles.yearBadge}>{batch.startYear} - {batch.endYear}</span>
+                    </Link>
                 </td>
                 <td className={styles.td}>
                     <span className={styles.stat}>{batch._count?.semesters || 0}</span>

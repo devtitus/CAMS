@@ -33,6 +33,32 @@ export async function getBatches() {
   }
 }
 
+export async function getBatchById(id: string) {
+    try {
+        const batch = await prisma.batch.findUnique({
+            where: { id },
+            include: {
+                course: true,
+                semesters: {
+                    orderBy: { semesterNumber: 'asc' },
+                    include: {
+                        sections: {
+                            orderBy: { name: 'asc' },
+                            include: {
+                                _count: { select: { students: true } }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        if (!batch) return { success: false, error: 'Batch not found' }
+        return { success: true, data: batch }
+    } catch (error) {
+        return { success: false, error: 'Failed to fetch batch details' }
+    }
+}
+
 export async function createBatch(data: z.infer<typeof BatchSchema>) {
   const result = BatchSchema.safeParse(data)
   if (!result.success) {
@@ -53,9 +79,25 @@ export async function createBatch(data: z.infer<typeof BatchSchema>) {
         return { success: false, error: 'Batch already exists for this course' }
     }
 
-    await prisma.batch.create({
-      data: result.data
+    // Transaction to create batch and auto-generate semesters
+    await prisma.$transaction(async (tx) => {
+        const batch = await tx.batch.create({
+            data: result.data
+        })
+
+        const duration = result.data.endYear - result.data.startYear
+        const totalSemesters = duration * 2
+        
+        const semestersData = Array.from({ length: totalSemesters }, (_, i) => ({
+            batchId: batch.id,
+            semesterNumber: i + 1
+        }))
+
+        await tx.semester.createMany({
+            data: semestersData
+        })
     })
+
     revalidatePath('/admin/batches')
     return { success: true }
   } catch (error: any) {
@@ -103,6 +145,38 @@ export async function deleteBatch(id: string) {
     revalidatePath('/admin/batches')
     return { success: true }
   } catch (error: any) {
-    return { success: false, error: 'Failed to delete batch. It might have related users or semesters.' }
+    return { success: false, error: 'Failed to delete batch.' }
   }
+}
+
+// Section Actions
+export async function createSection(semesterId: string, name: string) {
+    if (!name || name.trim() === '') {
+        return { success: false, error: 'Section name is required' }
+    }
+
+    try {
+        await prisma.section.create({
+            data: {
+                semesterId,
+                name: name.trim()
+            }
+        })
+        revalidatePath('/admin/batches/[id]', 'page')
+        return { success: true }
+    } catch (error) {
+        return { success: false, error: 'Failed to create section' }
+    }
+}
+
+export async function deleteSection(sectionId: string) {
+    try {
+        await prisma.section.delete({
+            where: { id: sectionId }
+        })
+        revalidatePath('/admin/batches/[id]', 'page')
+        return { success: true }
+    } catch (error) {
+        return { success: false, error: 'Failed to delete section' }
+    }
 }

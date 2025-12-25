@@ -1,0 +1,201 @@
+.container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  color: var(--text-primary);
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.title p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: var(--text-primary);
+}
+
+/* Layout */
+.content {
+  display: flex;
+  gap: 2rem;
+}
+
+.sidebar {
+  width: 14rem;
+  flex-shrink: 0;
+}
+
+.semesterTabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tab {
+  text-align: left;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-secondary);
+  color: var(--text-secondary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.tab:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.activeTab {
+  background-color: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+}
+
+.activeTab:hover {
+  background-color: var(--accent-hover);
+}
+
+.mainPanel {
+  flex: 1;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  min-height: 400px;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.panelHeader h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Section Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.sectionCard {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-secondary);
+  padding: 1rem;
+  border-radius: var(--radius);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sectionInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionName {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.studentCount {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color 0.15s;
+  padding: 0.25rem;
+}
+
+.deleteBtn:hover {
+  color: var(--danger-hover);
+}
+
+/* Add Section Form */
+.addSection {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-primary);
+}
+
+.addForm {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.input {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-secondary);
+  color: var(--text-primary);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  outline: none;
+  font-size: 0.875rem;
+  width: 12rem;
+}
+
+.input:focus {
+  border-color: var(--accent-light);
+}
+
+.addBtn {
+  background-color: var(--accent-primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.addBtn:hover {
+  background-color: var(--accent-hover);
+}
+
+.addBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
