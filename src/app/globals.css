@@ -1,25 +1,59 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors - Semantic Names */
+  
+  /* Backgrounds */
+  --bg-page: #020617;       /* Main page background */
+  --bg-panel: #1e293b;      /* Cards, Modals, Sidebar */
+  --bg-input: #0f172a;      /* Inputs, Selects */
+  --bg-hover: rgba(30, 41, 59, 0.5); /* Hover states */
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8; /* Slate 400 */
+  --text-muted: #64748b;     /* Slate 500 */
+  --text-light: #e2e8f0;     /* Slate 200 */
+
+  /* Borders */
+  --border-primary: #1e293b;
+  --border-secondary: #334155;
+  --focus-ring: rgba(59, 130, 246, 0.2);
+
+  /* Accents - Blue */
+  --accent-primary: #2563eb; /* Blue 600 */
+  --accent-hover: #1d4ed8;   /* Blue 700 */
+  --accent-light: #3b82f6;   /* Blue 500 (Focus borders) */
+  --accent-text: #60a5fa;    /* Blue 400 */
+
+  /* Semantic - Status */
+  --danger: #ef4444;       /* Red 500 */
+  --danger-hover: #f87171; /* Red 400 */
+  --danger-bg: rgba(239, 68, 68, 0.1);
+
+  --success: #10b981;      /* Emerald 500 */
+  --success-bg: rgba(16, 185, 129, 0.1);
+  --success-text: #6ee7b7;
+
+  --warning: #f59e0b;      /* Amber 500 */
+  
+  --info-bg: rgba(59, 130, 246, 0.1);
+  --info-text: #93c5fd;
+
+  --purple-bg: rgba(168, 85, 247, 0.1);
+  --purple-text: #d8b4fe;
+
+  /* Dimensions */
+  --radius: 0.5rem;
+  --radius-sm: 0.25rem;
+  --radius-lg: 0.75rem;
+
+  /* Fonts */
+  --font-family: Arial, Helvetica, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg-page);
+  font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -35,8 +69,21 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-page); 
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-secondary); 
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted); 
 }
