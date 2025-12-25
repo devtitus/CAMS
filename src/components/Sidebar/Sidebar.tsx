@@ -11,6 +11,7 @@ const navItems = [
   { label: 'Courses', href: '/admin/courses', icon: '📚' },
   { label: 'Batches', href: '/admin/batches', icon: '🎓' },
   { label: 'Subjects', href: '/admin/subjects', icon: '📖' },
+  { label: 'Subject Mapping', href: '/admin/subject-mapping', icon: '🔗' },
   { label: 'Users', href: '/admin/users', icon: '👥' },
   { label: 'Time-Table', href: '/admin/timetable', icon: '🗓️' },
 ]
